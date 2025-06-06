@@ -3,51 +3,118 @@
  * @copyright Copyright (c) Josh Rubow (jrubow). All rights reserved.
  *
  * @brief 
- * Implementation for the matrix class.
+ * Implementation for the Matrix class.
  * Supports element-wise and matrix multiplication, addition, and transposition.
  */
 
-
-
-#include <armadillo>
-#include <stdexcept>
 #include "matrix.hh"
+#include <stdexcept>
+#include <iostream>
+#include <armadillo>
 
 // Constructors
+
+// Public constructor to create a matrix of a given size, initialized to zeros.
 Matrix::Matrix(int r, int c) {
-    // Verify r and c
-    if (r < 1 || c < 1) {
-        throw std::invalid_argument("Invalid argument row or col less than 1.");
+    if (r < 0 || c < 0) {
+        throw std::invalid_argument("Invalid argument: row or col cannot be negative.");
     }
-    rows = r;
-    cols = c;
+    this->data.zeros(r, c);
 }
 
+// Public constructor to create a matrix from an existing std::vector.
 Matrix::Matrix(int r, int c, const std::vector<double>& initial_data) {
     // Verify r and c
-    if (r < 1 || c < 1) {
-        throw std::invalid_argument("Invalid argument row or col less than 1.");
+    if (r < 0 || c < 0) {
+        throw std::invalid_argument("[ERROR]: Invalid argument: row or col cannot be negative.");
     }
 
-    // Verify integrity of initial_data
-    int size = r * c;
-    if (initial_data.empty()) {
-        std::cerr << "WARNING: inital_data is empty. Program will proceed with empty data." << std::endl;
-        for (int i = 0; i < size; i++) {
-            data.push_back(0);
-        }
-    } else if (initial_data.size() > size) {
-        std::cerr << "WARNING: inital_data is larger than given row & col params allow. Program will truncate data." << std::endl;
-        data = std::vector<double>(initial_data.begin(), initial_data.begin() + size);
-    } else if (initial_data.size() < size) {
-        std::cerr << "WARNING: inital_data is smaller than given row & col params specificy. Program will extend data with 0.0." << std::endl;
-        data = initial_data;
-        for (int i = 0; i < size - initial_data.size(); i++) {
-            data.push_back(0);
-        }
-    } else {
-        data = initial_data;
+    size_t expected_size = static_cast<size_t>(r) * static_cast<size_t>(c);
+
+    // IMPORTANT: This constructor assumes the std::vector 'initial_data'
+    // is already in COLUMN-MAJOR format to match Armadillo's standard.
+    if (initial_data.size() == expected_size) {
+        this->data = arma::mat(initial_data.data(), r, c);
+    } else if (initial_data.empty()) {
+        std::cerr << "[WARNING] initial_data is empty. Matrix will be initialized with zeros." << std::endl;
+        this->data.zeros(r, c);
+    } else if (initial_data.size() > expected_size) {
+        std::cerr << "[WARNING] initial_data is larger than r*c. Data will be truncated." << std::endl;
+        this->data = arma::mat(initial_data.data(), r, c);
+    } else { // initial_data.size() < expected_size
+        std::cerr << "[WARNING] initial_data is smaller than r*c. Matrix will be padded with 0.0." << std::endl;
+        this->data.zeros(r, c);
+        std::memcpy(this->data.memptr(), initial_data.data(), initial_data.size() * sizeof(double));
     }
 }
 
+// Private constructor - for fast implementation
+Matrix::Matrix(const arma::mat& internal_matrix) : data(internal_matrix) {}
 
+
+// Getters
+int Matrix::getRows() const {
+    return this->data.n_rows;
+}
+
+int Matrix::getCols() const {
+    return this->data.n_cols;
+}
+
+double Matrix::get(int r, int c) const {
+    return this->data(r, c);
+}
+
+void Matrix::set(int r, int c, double value) {
+    this->data(r, c) = value;
+}
+
+// Basic Operations
+Matrix Matrix::add(const Matrix &mat) const {
+    // Validate arguments, rows and cols must be equal
+    if (this->getRows() != mat.getRows() || this->getCols() != mat.getCols()) {
+        throw std::invalid_argument("[ERROR] Matrices must have the same dimensions for addition.");
+    }
+
+    arma::mat result = this->data + mat.data;
+    return Matrix(result);
+}
+
+Matrix Matrix::subtract(const Matrix &mat) const {
+    // Validate arguments, rows and cols must be equal
+    if (this->getRows() != mat.getRows() || this->getCols() != mat.getCols()) {
+        throw std::invalid_argument("[ERROR] Matrices must have the same dimesions for subtraction.");
+    }
+
+    arma::mat result = this->data - mat.data;
+    return Matrix(result);
+}
+
+Matrix Matrix::multiplyElementwise(const Matrix &mat) const {
+    if (this->getRows() != mat.getRows() || this->getCols() != mat.getCols()) {
+        throw std::invalid_argument("[ERROR] Matrices must have the same dimensions for elementwise multiplication.");
+    }
+
+    arma::mat result = this->data % mat.data;
+    return Matrix(result);
+}
+
+Matrix Matrix::multiply(const Matrix &mat) const {
+    if (this->getCols() != mat.getRows()) {
+        throw std::invalid_argument("[ERROR] Dimesnions do not match for matrix multiplication operation.");
+    }
+
+    arma::mat result = this->data * mat.data;
+    return Matrix(result);
+}
+
+// Scalar Operations
+Matrix Matrix::scalarMultiply(double scalar) const {
+    arma::mat result = scalar * this->data;
+    return Matrix(result);
+}
+
+Matrix Matrix::scalarAdd(double scalar) const {
+    arma::mat result = scalar + this->data;
+    return Matrix(result);
+}

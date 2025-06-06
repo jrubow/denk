@@ -2,45 +2,50 @@
  * @file
  * @copyright Copyright (c) Josh Rubow (jrubow). All rights reserved.
  *
- * @brief 
+ * @brief
  * Matrix class for basic linear algebra operations.
  * Supports element-wise and matrix multiplication, addition, and transposition.
  */
 
-
 #ifndef MATRIX_H
 #define MATRIX_H
 
+#include <armadillo>
 #include <vector>
 #include <iostream>
 
 class Matrix {
 public:
-    int rows;
-    int cols;
-    std::vector<double> data;
+    arma::mat data;
 
     // Constructors
     Matrix(int r, int c);
     Matrix(int r, int c, const std::vector<double>& initial_data);
 
-    // Accessors
+    // Accessors for dimensions
+    int getRows() const;
+    int getCols() const;
+
+    // Accessors for elements
     double get(int r, int c) const;
-    void set(int r, int c, double val);
+    void set(int r, int c, double value);
 
     // Basic operations
-    inline Matrix add(const Matrix& other) const; 
-    inline Matrix subtract(const Matrix& other) const; // Element-wise subtraction
-    inline Matrix multiply_elementwise(const Matrix& other) const; // Hadamard product
-    inline Matrix multiply(const Matrix& other) const; // Matrix multiplication (dot product)
-    inline Matrix transpose() const;
+    Matrix add(const Matrix& mat) const;
+    Matrix subtract(const Matrix& mat) const;
+    Matrix multiplyElementwise(const Matrix& mat) const;
+    Matrix multiply(const Matrix& mat) const;
+    Matrix transpose() const;
 
     // Scalar operations
-    Matrix scalar_multiply(double scalar) const;
-    Matrix scalar_add(double scalar) const;
+    Matrix scalarMultiply(double scalar) const;
+    Matrix scalarAdd(double scalar) const;
 
     // For debugging
     void print() const;
+
+private:
+    Matrix(const arma::mat& internal_matrix);
 };
 
 #endif // MATRIX_H
