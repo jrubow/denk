@@ -5,7 +5,7 @@ set(TEST_EXECUTABLE_NAME runMatrixComponentTests)
 
 # Add the source file(s) for this component's tests
 add_executable(${TEST_EXECUTABLE_NAME}
-    test_matrix_constructor.cpp
+    test_matrix_constructor.cc
     # test_matrix_operations.cpp # Example: if you have multiple test files for matrix
 )
 
