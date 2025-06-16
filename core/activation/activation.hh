@@ -12,6 +12,7 @@
 
 class Activation {
 public:
+    Activation();
     double activate(double input);
 };
 

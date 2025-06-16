@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.14)
 project(denk LANGUAGES CXX)
 
-# --- Armadillo Setup ---
+# Armadillo Initalization
 find_package(Armadillo REQUIRED)
 message(STATUS "Armadillo found: ${ARMADILLO_FOUND}")
 message(STATUS "Armadillo include_dirs: ${ARMADILLO_INCLUDE_DIRS}")
@@ -15,40 +15,44 @@ else()
     message(STATUS "Linking with '${ARMADILLO_LIBRARIES}' (and using include_dirs '${ARMADILLO_INCLUDE_DIRS}') instead.")
 endif()
 
-# --- Define a Library for your Core Code (e.g., Matrix class) ---
+# Library Files for DenkCore
 set(CORE_SOURCES
     core/matrix/matrix.cc
+    core/activation/sigmoid.cc
 )
 set(CORE_HEADERS
     core/matrix/matrix.hh
+    core/activation/activation.hh
 )
 
 add_library(DenkCore ${CORE_SOURCES} ${CORE_HEADERS})
 
 # Link Armadillo using the variables
-target_link_libraries(DenkCore PRIVATE ${ARMADILLO_LIBRARIES}) # CHANGED
+target_link_libraries(DenkCore PRIVATE ${ARMADILLO_LIBRARIES})
 # Add Armadillo include directories
-target_include_directories(DenkCore PRIVATE ${ARMADILLO_INCLUDE_DIRS}) # ADDED
+target_include_directories(DenkCore PRIVATE ${ARMADILLO_INCLUDE_DIRS})
 
-# Set include directories for DenkCore's own headers
+# Include directories for DenkCore Headers
 target_include_directories(DenkCore PUBLIC
     "${CMAKE_CURRENT_SOURCE_DIR}/core/matrix"
+    "${CMAKE_CURRENT_SOURCE_DIR}/core/activation"
 )
 
-# --- Define Your Main Executable ---
+# Main Executable
 add_executable(DenkApp main.cc)
 target_link_libraries(DenkApp PRIVATE DenkCore)
 
-# --- Google Test Integration using FetchContent ---
+# Google Test Integration
 enable_testing()
 include(FetchContent)
 FetchContent_Declare(
     googletest
     GIT_REPOSITORY https://github.com/google/googletest.git
-    GIT_TAG        main # Or main / release-1.13.0 if 1.14.0 still has checkout issues
+    GIT_TAG        main
 )
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
-# --- Add Tests Subdirectories ---
+# Test Subdirectories
 add_subdirectory(core/tests/matrix)
+add_subdirectory(core/tests/activation)
