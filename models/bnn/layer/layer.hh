@@ -19,24 +19,21 @@
 
 class Layer {
 public:
-    Matrix W; // includes bias's
+    Matrix neurons;
+    Matrix weights;
+    Activation activator;
 
     // Constructors
-    Layer(int height); // Initalize weights to 0
-    Layer(Matrix weights);
+    Layer(int height, Activation &activator, int weightsHeight); // randomly initializes neurons
 
-    // Accessors
-    Matrix getWeights() const;
-
-    // Setters
-    Matrix setWeights(Matrix newWeights);
-    Matrix setWeight(int x, int y, double value);
+    // Setters & Getters
+    void setNeurons(Matrix neurons);
     
     // Forward Propagate
-    Matrix forward(Matrix input, Activation activator) const;
+    Matrix forward(Matrix weights) const;
 
     // Backpropagate
-    Matrix backward(Matrix input, Activation activator) const;
+    Matrix backward(Matrix weights) const;
 
 };
 

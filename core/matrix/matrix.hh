@@ -29,6 +29,7 @@ public:
     // Accessors for elements
     double get(int r, int c) const;
     void set(int r, int c, double value);
+    void set(Matrix input);
 
     // Basic operations
     Matrix add(const Matrix& mat) const;
@@ -36,10 +37,15 @@ public:
     Matrix multiplyElementwise(const Matrix& mat) const;
     Matrix multiply(const Matrix& mat) const;
     Matrix transpose() const;
+    Matrix toPower(double power) const;
+    Matrix exponent() const;
 
     // Scalar operations
     Matrix scalarMultiply(double scalar) const;
     Matrix scalarAdd(double scalar) const;
+
+    // Helper functions
+    void uRandomize(double scalar);
 
     // For debugging
     void print() const;

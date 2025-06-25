@@ -10,10 +10,17 @@
 #ifndef ACTIVATION_H
 #define ACTIVATION_H
 
+#include "../matrix/matrix.hh"
+
+enum ActivationType {
+    SIGMOID
+};
+
 class Activation {
 public:
     Activation();
-    double activate(double input);
+    double activate(double input) const;
+    Matrix activate(Matrix input) const;
 };
 
 #endif // ACTIVATION_H

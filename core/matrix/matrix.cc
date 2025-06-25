@@ -65,6 +65,7 @@ double Matrix::get(int r, int c) const {
     return this->data(r, c);
 }
 
+// Setters
 void Matrix::set(int r, int c, double value) {
     this->data(r, c) = value;
 }
@@ -108,6 +109,16 @@ Matrix Matrix::multiply(const Matrix &mat) const {
     return Matrix(result);
 }
 
+Matrix Matrix::toPower(double power) const {
+    arma::mat result = arma::pow(data, power);
+    return result;
+}
+
+Matrix Matrix::exponent() const {
+    arma::mat result = arma::exp(data);
+    return result;
+}
+
 // Scalar Operations
 Matrix Matrix::scalarMultiply(double scalar) const {
     arma::mat result = scalar * this->data;
@@ -117,4 +128,9 @@ Matrix Matrix::scalarMultiply(double scalar) const {
 Matrix Matrix::scalarAdd(double scalar) const {
     arma::mat result = scalar + this->data;
     return Matrix(result);
+}
+
+// Helper functions
+void Matrix::uRandomize(double scalar) {
+    data = scalar * data.randu(data.n_cols, data.n_rows);
 }
