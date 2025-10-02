@@ -1,3 +1,4 @@
 /.vscode
 /build
+/compile/CMakeFiles
 /denk.code-workspace

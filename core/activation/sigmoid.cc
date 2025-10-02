@@ -18,7 +18,7 @@ public:
         return 1.0 / (1.0 + std::exp(-input));
     }
 
-    Matrix activate(Matrix input) const {
+    Matrix activate(const Matrix &input) const {
         return input.scalarMultiply(-1.0).exponent().scalarAdd(1.0).toPower(-1.0);
     }
 };

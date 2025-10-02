@@ -13,9 +13,8 @@
 
 #include <armadillo>
 #include <vector>
-#include "..\..\core\matrix\matrix.hh"
-#include "..\..\core\activation\activation.hh"
-// #include <memory>
+#include "matrix.hh"
+#include "activation.hh"
 
 class Layer {
 public:
@@ -33,7 +32,7 @@ public:
     Matrix forward(Matrix weights) const;
 
     // Backpropagate
-    Matrix backward(Matrix weights) const;
+    Matrix backpropogate(Matrix weights) const;
 
 };
 

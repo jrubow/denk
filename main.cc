@@ -1,4 +1,4 @@
-#include "core/matrix/matrix.hh"
+#include "core.hh"
 
 int main(int argc, int *argv[]) {
     
