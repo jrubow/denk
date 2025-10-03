@@ -21,6 +21,10 @@ Matrix Layer::forward(Matrix weights) const {
     return activator.activate(weights.multiply(neurons));
 }
 
+void Layer::backpropogate(Matrix weights) const {
+    
+}
+
 void Layer::setNeurons(Matrix input) {
     this->neurons = input;
 }

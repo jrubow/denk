@@ -32,7 +32,7 @@ public:
     Matrix forward(Matrix weights) const;
 
     // Backpropagate
-    Matrix backpropogate(Matrix weights) const;
+    void backpropogate(Matrix weights) const;
 
 };
 

@@ -16,7 +16,6 @@ BNN::BNN(std::vector<Layer> layers, uint64_t epochs, double learningRate, double
     this->learningRate = learningRate;
     this->trainingSplit = trainingSplit;
     this->lossFunc = MSE();
-    this->activator = Sigmoid();
 }
 
 BNN::BNN(std::vector<Layer> layers, uint64_t epochs, double learningRate, double trainingSplit, std::vector<Matrix> X, std::vector<Matrix> Y) {
@@ -27,7 +26,6 @@ BNN::BNN(std::vector<Layer> layers, uint64_t epochs, double learningRate, double
     this->X = X;
     this->Y = Y;
     this->lossFunc = MSE();
-    this->activator = Sigmoid();
 }
 
 double BNN::computeAverageLoss() {

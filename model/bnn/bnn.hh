@@ -21,7 +21,6 @@ class BNN {
         uint64_t epochs;
         double learningRate;
         Loss lossFunc;
-        Activation activator;
 
         // Network Layers
         std::vector<Layer> layers;
