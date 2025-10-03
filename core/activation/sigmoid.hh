@@ -8,7 +8,8 @@
  * Derived from Activation base class.
  */
 
-#pragma once
+#ifndef SIGMOID_H
+#define SIGMOID_H
 
 #include "activation.hh"
 
@@ -19,3 +20,5 @@ public:
     double activate(double input) const;
     Matrix activate(const Matrix &input) const;
 };
+
+#endif // SIGMOID_H

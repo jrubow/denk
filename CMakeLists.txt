@@ -30,9 +30,18 @@ endif()
 # Library Files for DenkCore
 set(CORE_SOURCES
     core/matrix/matrix.cc
+    
+    # Activation Sources
     core/activation/sigmoid.cc
+    
+    # Layer Sources
     core/layer/layer.cc
+
+    # Loss Sources
     core/loss/mse.cc
+
+    # Optimizer Sources
+    core/optimizer/gradientdescent.cc
 )
 set(CORE_HEADERS
     core/core.hh
@@ -42,11 +51,16 @@ set(CORE_HEADERS
     core/activation/activation.hh
     core/activation/sigmoid.hh
     
+    # Layer Headers
     core/layer/layer.hh
     
     # Loss Headers
     core/loss/loss.hh
     core/loss/mse.hh
+
+    # Optimizer Headers
+    core/optimizer/optimizer.hh
+    core/optimizer/gradientdescent.hh
 )
 
 add_library(DenkCore ${CORE_SOURCES} ${CORE_HEADERS})
@@ -62,6 +76,8 @@ target_include_directories(DenkCore PUBLIC
     "${CMAKE_CURRENT_SOURCE_DIR}/core/matrix"
     "${CMAKE_CURRENT_SOURCE_DIR}/core/activation"
     "${CMAKE_CURRENT_SOURCE_DIR}/core/layer"
+    "${CMAKE_CURRENT_SOURCE_DIR}/core/loss"
+    "${CMAKE_CURRENT_SOURCE_DIR}/core/optimizer"
 )
 
 
