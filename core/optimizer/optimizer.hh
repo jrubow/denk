@@ -13,11 +13,12 @@
 #define OPTIMIZER_H
 
 #include "matrix.hh"
+#include "layer.hh"
 
 class Optimizer {
 public:
     Optimizer();
 
-    void updateParameters(Matrix &weights, const Matrix &gradients, double learningRate);
+    void updateParameters(std::vector<Layer> &layers, std::vector<Matrix> &gradients, double learningRate);
 };
 #endif // OPTIMIZER_H

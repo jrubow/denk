@@ -22,7 +22,6 @@ enum ActivationType {
 
 class Activator {
 public:
-    Activator();
 
     double activate(double input) const;
     Matrix activate(const Matrix &input) const;

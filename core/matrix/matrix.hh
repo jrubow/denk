@@ -19,6 +19,7 @@ public:
     arma::mat data;
 
     // Constructors
+    Matrix() = default;
     Matrix(int r, int c);
     Matrix(int r, int c, const std::vector<double>& initial_data);
     Matrix(int r, int c, int init);

@@ -30,17 +30,19 @@ class BNN {
         std::vector<Matrix> expected;
 
         // Optimizer
-        Optimizer opt;
+        Optimizer optimizer;
 
         // Constructors
         BNN(std::vector<Layer> layers, uint64_t epochs, double learningRate, double trainingSplit);
         BNN(std::vector<Layer> layers, uint64_t epochs, double learningRate, double trainingSplit, std::vector<Matrix> X, std::vector<Matrix> Y);
         
         // Training & Prediction
-        int16_t train();
+        status_t train();
+        status_t test();
         Matrix predict(Matrix input);
+        double computeLoss(int index);
         double computeAverageLoss();
-        std::vector<Matrix> computeGradients(int64_t epoch);
+        const std::vector<Matrix> computeGradients(int64_t epoch);
 
 
         // Getters & Setters

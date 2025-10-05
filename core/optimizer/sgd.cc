@@ -9,12 +9,17 @@
  */
 
 #include "sgd.hh"
+#include "layer.hh"
 #include "matrix.hh"
 
 SGD::SGD() {
 
 }
 
-void updateParameters(Matrix &weights, Matrix &gradients, double learningRate) {
-    weights = weights.subtract(gradients.scalarMultiply(learningRate));
+void updateParameters(std::vector<Layer> &layers, std::vector<Matrix> &gradients, double learningRate) {
+    // add error if weights != gradients
+    
+    for (int i = 0; i < layers.size(); i++) {
+        layers[i].weights = layers[i].weights.subtract(gradients[i].scalarMultiply(learningRate));
+    }
 }

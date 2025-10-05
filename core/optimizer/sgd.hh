@@ -12,12 +12,13 @@
 #define GRADIENTDESCENT_H
 
 #include "optimizer.hh"
+#include "layer.hh"
 
 class SGD : public Optimizer {
 public:
     SGD();
 
-    void updateParameters(Matrix &weights, const Matrix &gradients, double learningRate);
+    void updateParameters(std::vector<Layer> &layers, const Matrix &gradients, double learningRate);
 };
 
 

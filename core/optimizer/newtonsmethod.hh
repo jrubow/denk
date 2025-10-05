@@ -12,6 +12,7 @@
 #define NEWTONSMETHOD_HH
 
 #include "optimizer.hh"
+#include "layer.hh"
 
 class NewtonsMethod : public Optimizer {
 public:

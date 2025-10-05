@@ -1,3 +1,0 @@
-update computeGradients and optimizer to use
-Matrix and not vecotrs of Matrix -- should be one whole matrix
- - this will mean adding getRow(index) getCol(index) to matrix.cc

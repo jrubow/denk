@@ -44,7 +44,7 @@ std::vector<Matrix> getWeights(const std::vector<Layer>& layers) {
 
 double BNN::computeAverageLoss() {
     double totalLoss = 0.0;
-    for (int64_t i = 0; i < input.size(); i++) {
+    for (size_t i = 0; i < input.size(); i++) {
         Matrix xInput = input[i];
         Matrix yExpected = expected[i];
 
@@ -60,33 +60,51 @@ double BNN::computeAverageLoss() {
     return totalLoss / input.size();
 }
 
-std::vector<Matrix> BNN::computeGradients(int64_t index) {
+double BNN::computeLoss(int index) {
+    double totalLoss = 0.0;
+    Matrix xInput = input[index];
+    Matrix yExpected = expected[index];
+
+    // Forward Propagation
+    for (const Layer &layer : layers) {
+        xInput = layer.forward(xInput);
+    }
+
+    // Compute Loss
+    Matrix lossm = loss.compute(xInput, yExpected);
+    totalLoss += lossm.get(0, 0);
+    
+    return totalLoss / input.size();
+}
+
+const std::vector<Matrix> BNN::computeGradients(int64_t index) {
     std::vector<Matrix> gradients(layers.size());
     std::vector<Matrix> deltas(layers.size());
 
     // Compute delta for output layer
-    int n = layers.size();
+    size_t n = layers.size();
     deltas[n-1] = loss.derivate(expected[index], layers[n-1].neurons)
                   .multiplyElementwise(layers[n-1].activator.derivate(layers[n-1].neurons));
 
     // Backpropagate delta through layers
-    for (int i = n - 2; i >= 0; i--) {
+    for (size_t i = n - 2; i >= 0; i--) {
         deltas[i] = (layers[i+1].weights.transpose().multiply(deltas[i+1]))
                      .multiplyElementwise(layers[i].activator.derivate(layers[i].neurons));
     }
 
     // Compute weight gradients
-    for (int i = 0; i < n; i++) {
+    for (size_t i = 0; i < n; i++) {
         gradients[i] = deltas[i].multiply(layers[i].neurons.transpose());
     }
 
     return gradients;
 }
 
-
-int16_t BNN::train() {
+// TODO: implement mini-batch and batch gd
+status_t BNN::train() {
     for (int i = 0; i < epochs; i++) {
-        for (int64_t j = 0; j < input.size(); j++) {
+        logf("\n[---------- START TRAIN ----------]\n", (i + 1), epochs);
+        for (size_t j = 0; j < input.size(); j++) {
             Matrix xInput = input[j];
             Matrix yExpected = expected[j];
 
@@ -95,15 +113,24 @@ int16_t BNN::train() {
                 xInput = layer.forward(xInput);
             }
 
-            logf("[Epoch %d, Sample %d] Average Loss: %.2f\n", (i + 1), (j + 1), computeAverageLoss());
+            logf("[EPOCH %d, SAMPLE %d] Avg Loss: %.2f\n", (i + 1), (j + 1), computeLoss(j));
+
 
             // Update weights
-            computeGradients(j);
-            optimizer.updateParameters( gradients);
+            std::vector<Matrix> gradients = computeGradients(j);
+            optimizer.updateParameters(layers, gradients, learningRate);
 
         }
     }
 
+    logf("[---------- END TRAIN ----------]\n");
 
-    return -1;
+    return SUCCESS;
+}
+
+status_t BNN::test() {
+    logf("\n[---------- START TEST ----------]\n");
+    logf("[TEST] Total Avg Loss: %.2f\n", computeAverageLoss());
+    logf("[---------- END TRAIN ----------]\n");
+    return SUCCESS;
 }

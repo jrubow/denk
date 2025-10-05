@@ -71,6 +71,9 @@ set(CORE_HEADERS
     # Loggers
     core/logger/logger.h
 
+    # Status
+    core/status/status.h
+
 )
 
 add_library(DenkCore ${CORE_SOURCES} ${CORE_HEADERS})
@@ -89,6 +92,7 @@ target_include_directories(DenkCore PUBLIC
     "${CMAKE_CURRENT_SOURCE_DIR}/core/loss"
     "${CMAKE_CURRENT_SOURCE_DIR}/core/optimizer"
     "${CMAKE_CURRENT_SOURCE_DIR}/core/logger"
+    "${CMAKE_CURRENT_SOURCE_DIR}/core/status"
 )
 
 
@@ -119,6 +123,7 @@ target_link_libraries(DenkModel PRIVATE DenkCore)
 # Main Executable
 add_executable(DenkApp main.cc)
 target_link_libraries(DenkApp PRIVATE DenkCore)
+target_link_libraries(DenkApp PRIVATE DenkModel)
 
 # Google Test Integration
 enable_testing()

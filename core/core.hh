@@ -19,7 +19,13 @@
 #include "optimizer/sgd.hh"
 #include "optimizer/newtonsmethod.hh"
 
+
+// System
+ 
 // Logger
 #include "logger/logger.h"
+
+// Status
+#include "status/status.h"
 
 #endif // CORE_H
