@@ -22,6 +22,13 @@ Matrix::Matrix(int r, int c) {
     this->data.zeros(r, c);
 }
 
+Matrix::Matrix(int r, int c, int init) {
+    if (r < 0 || c < 0) {
+        throw std::invalid_argument("Invalid argument: row or col cannot be negative.");
+    }
+    this->data.fill(init);
+}
+
 // Public constructor to create a matrix from an existing std::vector.
 Matrix::Matrix(int r, int c, const std::vector<double>& initial_data) {
     // Verify r and c

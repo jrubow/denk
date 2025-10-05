@@ -8,9 +8,8 @@
  */
 
 #include "layer.hh"
-#include <armadillo>
 
-Layer::Layer(int height, Activation &activator, int weightsHeight) :
+Layer::Layer(int height, Activator &activator, int weightsHeight) :
     neurons(height, 1), weights(0, weightsHeight) {
     this->neurons.uRandomize(1.0);
     this->weights.uRandomize(1.0);

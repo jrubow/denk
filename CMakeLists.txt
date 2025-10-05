@@ -31,36 +31,46 @@ endif()
 set(CORE_SOURCES
     core/matrix/matrix.cc
     
-    # Activation Sources
-    core/activation/sigmoid.cc
+    # Activators
+    core/activator/sigmoid.cc
     
-    # Layer Sources
+    # Layers
     core/layer/layer.cc
 
-    # Loss Sources
+    # Loss
     core/loss/mse.cc
 
-    # Optimizer Sources
-    core/optimizer/gradientdescent.cc
+    # Optimizers
+    core/optimizer/sgd.cc
+    core/optimizer/newtonsmethod.cc
+
+    # Logger
+    core/logger/logger.c
+
 )
 set(CORE_HEADERS
     core/core.hh
     core/matrix/matrix.hh
     
-    # Activation Headers
-    core/activation/activation.hh
-    core/activation/sigmoid.hh
+    # Activators
+    core/activator/activator.hh
+    core/activator/sigmoid.hh
     
-    # Layer Headers
+    # Layers
     core/layer/layer.hh
     
-    # Loss Headers
+    # Loss
     core/loss/loss.hh
     core/loss/mse.hh
 
-    # Optimizer Headers
+    # Optimizers
     core/optimizer/optimizer.hh
-    core/optimizer/gradientdescent.hh
+    core/optimizer/sgd.hh
+    core/optimizer/newtonsmethod.hh
+
+    # Loggers
+    core/logger/logger.h
+
 )
 
 add_library(DenkCore ${CORE_SOURCES} ${CORE_HEADERS})
@@ -74,15 +84,16 @@ target_include_directories(DenkCore PRIVATE ${ARMADILLO_INCLUDE_DIRS})
 target_include_directories(DenkCore PUBLIC
     "${CMAKE_CURRENT_SOURCE_DIR}/core"
     "${CMAKE_CURRENT_SOURCE_DIR}/core/matrix"
-    "${CMAKE_CURRENT_SOURCE_DIR}/core/activation"
+    "${CMAKE_CURRENT_SOURCE_DIR}/core/activator"
     "${CMAKE_CURRENT_SOURCE_DIR}/core/layer"
     "${CMAKE_CURRENT_SOURCE_DIR}/core/loss"
     "${CMAKE_CURRENT_SOURCE_DIR}/core/optimizer"
+    "${CMAKE_CURRENT_SOURCE_DIR}/core/logger"
 )
 
 
 #################################
-#       DenkModels Library
+#       DenkModel Library
 #################################
 
 # Library Files for DenkCore
@@ -96,14 +107,14 @@ set(MODEL_HEADERS
     model/bnn/bnn.hh
 )
 
-add_library(DenkModels ${MODEL_SOURCES} ${MODEL_HEADERS})
+add_library(DenkModel ${MODEL_SOURCES} ${MODEL_HEADERS})
 
 # Include directories for DenkCore Headers
-target_include_directories(DenkModels PUBLIC
+target_include_directories(DenkModel PUBLIC
     "${CMAKE_CURRENT_SOURCE_DIR}/model"
     "${CMAKE_CURRENT_SOURCE_DIR}/model/bnn"
 )
-target_link_libraries(DenkModels PRIVATE DenkCore)
+target_link_libraries(DenkModel PRIVATE DenkCore)
 
 # Main Executable
 add_executable(DenkApp main.cc)
@@ -122,4 +133,4 @@ FetchContent_MakeAvailable(googletest)
 
 # Test Subdirectories
 add_subdirectory(core/tests/matrix)
-add_subdirectory(core/tests/activation)
+add_subdirectory(core/tests/activator)

@@ -11,8 +11,8 @@
  * 
  */
 
-#ifndef ACTIVATION_H
-#define ACTIVATION_H
+#ifndef ACTIVATOR_H
+#define ACTIVATOR_H
 
 #include "matrix.hh"
 
@@ -20,11 +20,14 @@ enum ActivationType {
     SIGMOID
 };
 
-class Activation {
+class Activator {
 public:
-    Activation();
+    Activator();
+
     double activate(double input) const;
     Matrix activate(const Matrix &input) const;
+
+    Matrix derivate(const Matrix &input) const;
 };
 
-#endif // ACTIVATION_H
+#endif // ACTIVATOR_H

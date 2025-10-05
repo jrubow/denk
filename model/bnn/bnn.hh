@@ -20,24 +20,27 @@ class BNN {
         // Hyperparameters
         uint64_t epochs;
         double learningRate;
-        Loss lossFunc;
+        Loss loss;
 
         // Network Layers
         std::vector<Layer> layers;
 
         // Data
-        std::vector<Matrix> X;
-        std::vector<Matrix> Y;
+        std::vector<Matrix> input;
+        std::vector<Matrix> expected;
+
+        // Optimizer
+        Optimizer opt;
 
         // Constructors
         BNN(std::vector<Layer> layers, uint64_t epochs, double learningRate, double trainingSplit);
         BNN(std::vector<Layer> layers, uint64_t epochs, double learningRate, double trainingSplit, std::vector<Matrix> X, std::vector<Matrix> Y);
         
         // Training & Prediction
-        int64_t train(std::vector<Matrix> X, std::vector<Matrix> Y);
-        int64_t train(); // Checks that X and Y are set
+        int16_t train();
         Matrix predict(Matrix input);
         double computeAverageLoss();
+        std::vector<Matrix> computeGradients(int64_t epoch);
 
 
         // Getters & Setters

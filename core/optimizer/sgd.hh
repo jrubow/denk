@@ -4,7 +4,7 @@
  * All rights reserved.
  *
  * @brief
- * Gradient descent class for optimizing model parameters.
+ * Stochastic Gradient Descent (SGD) class for optimizing model parameters.
  * Extends Optimizer base class.
  */
 
@@ -13,9 +13,9 @@
 
 #include "optimizer.hh"
 
-class GradientDescent : public Optimizer {
+class SGD : public Optimizer {
 public:
-    GradientDescent();
+    SGD();
 
     void updateParameters(Matrix &weights, const Matrix &gradients, double learningRate);
 };

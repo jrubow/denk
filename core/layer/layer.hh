@@ -11,19 +11,19 @@
 #define LAYER_H
 
 
-#include <armadillo>
 #include <vector>
 #include "matrix.hh"
-#include "activation.hh"
+#include "activator.hh"
 
 class Layer {
 public:
     Matrix neurons;
     Matrix weights;
-    Activation activator;
+    Activator activator;
+    int height;
 
     // Constructors
-    Layer(int height, Activation &activator, int weightsHeight); // randomly initializes neurons
+    Layer(int height, Activator &activator, int weightsHeight); // randomly initializes neurons
 
     // Setters & Getters
     void setNeurons(Matrix neurons);

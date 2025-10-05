@@ -3,14 +3,14 @@
  * @copyright Copyright (c) Josh Rubow (jrubow). All rights reserved.
  *
  * @brief
- * Sigmoid implementation : extension of Activation class.
+ * Sigmoid implementation : extension of Activator class.
  * Computes sigmoid function given input.
  */
 
-#include "activation.hh"
+#include "activator.hh"
 #include <cmath>
 
-class Sigmoid : public Activation {
+class Sigmoid : public Activator {
 public:
     Sigmoid() {}
 
@@ -20,5 +20,9 @@ public:
 
     Matrix activate(const Matrix &input) const {
         return input.scalarMultiply(-1.0).exponent().scalarAdd(1.0).toPower(-1.0);
+    }
+
+    Matrix derivate(const Matrix &input) const {
+        return input;
     }
 };
