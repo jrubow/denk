@@ -8,7 +8,7 @@ int main(int argc, int *argv[]) {
              "██║  ██║██╔══╝  ██║╚██╗██║██╔═██╗ \n"
              "██████╔╝███████╗██║ ╚████║██║  ██╗\n"
              "╠═╣═══╝ ╚══════╝╚═╝  ╚═══╝╚═╝  ╠═╣\n"
-            " ╠═╣  Simple Machine Learning   ╠═╣"
-            " ╚═╩═══╡ By: Joshua James ╞═════╩═╝");
+             "╠═╣  Machine Learning Library  ╠═╣\n"
+             "╚═╩═══╡   Joshua James   ╞═════╩═╝\n\n");
     
 }

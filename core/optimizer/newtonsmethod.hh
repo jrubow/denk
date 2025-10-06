@@ -21,4 +21,4 @@ public:
     void updateParameters(Matrix &weights, const Matrix &gradients, double learningRate);
 };
 
-#endif NEWTONSMETHOD_HH
+#endif // NEWTONSMETHOD_HH

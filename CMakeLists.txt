@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.14)
-project(denk LANGUAGES CXX)
+project(denk LANGUAGES CXX C)
 
 # Armadillo Initialization
 find_package(Armadillo REQUIRED)
@@ -48,33 +48,33 @@ set(CORE_SOURCES
     core/logger/logger.c
 
 )
-set(CORE_HEADERS
-    core/core.hh
-    core/matrix/matrix.hh
-    
-    # Activators
-    core/activator/activator.hh
-    core/activator/sigmoid.hh
-    
-    # Layers
-    core/layer/layer.hh
-    
-    # Loss
-    core/loss/loss.hh
-    core/loss/mse.hh
-
-    # Optimizers
-    core/optimizer/optimizer.hh
-    core/optimizer/sgd.hh
-    core/optimizer/newtonsmethod.hh
-
-    # Loggers
-    core/logger/logger.h
-
-    # Status
-    core/status/status.h
-
-)
+#set(CORE_HEADERS
+#    core/core.hh
+#    core/matrix/matrix.hh
+#    
+#    # Activators
+#    core/activator/activator.hh
+#    core/activator/sigmoid.hh
+#    
+#    # Layers
+#    core/layer/layer.hh
+#    
+#    # Loss
+#    core/loss/loss.hh
+#    core/loss/mse.hh
+#
+#    # Optimizers
+#    core/optimizer/optimizer.hh
+#    core/optimizer/sgd.hh
+#    core/optimizer/newtonsmethod.hh
+#   
+#    # Loggers
+#    core/logger/logger.h
+#
+#    # Status
+#    core/status/status.h
+#
+#)
 
 add_library(DenkCore ${CORE_SOURCES} ${CORE_HEADERS})
 
