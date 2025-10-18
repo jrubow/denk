@@ -7,7 +7,7 @@
  */
 
 #include "gtest/gtest.h"
-#include "../activator/sigmoid.cc"
+#include "../../../activator/sigmoid.hh"
 #include <cmath>
 
 TEST(SigmoidTests, InputOne) {

@@ -15,7 +15,7 @@ void logm(char *msg) {
     printf("%s", msg);
 }
 
-void logf(const char *format, ...) {
+void _logf(const char *format, ...) {
     va_list args;
     va_start(args, format);
     vprintf(format, args);

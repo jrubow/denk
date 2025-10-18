@@ -13,6 +13,10 @@
 #ifndef LOGGER_H
 #define LOGGER_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #ifdef DISABLE_LOGGING
 
 #define logm(msg)  ((void)0)
@@ -23,8 +27,12 @@
 
 void logm(char *msg);
 
-void logf(const char *format, ...);
+void _logf(const char *format, ...);
 
+#endif
+
+#ifdef __cplusplus
+}
 #endif
 
 #endif // LOGGER_H

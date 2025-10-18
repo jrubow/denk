@@ -14,10 +14,10 @@
 
 class Loss {
 public:
-    Loss();
+    virtual ~Loss() = default;
 
-    Matrix compute(const Matrix &predicted, const Matrix &actual) const;
-    Matrix derivate(const Matrix &predicted, const Matrix &actual) const;
+    virtual Matrix compute(const Matrix &predicted, const Matrix &actual) const = 0;
+    virtual Matrix derivate(const Matrix &predicted, const Matrix &actual) const = 0;
 };
 
 #endif // LOSS_H

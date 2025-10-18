@@ -26,6 +26,7 @@ Matrix::Matrix(int r, int c, int init) {
     if (r < 0 || c < 0) {
         throw std::invalid_argument("Invalid argument: row or col cannot be negative.");
     }
+    this->data.set_size(r, c);
     this->data.fill(init);
 }
 
@@ -134,6 +135,12 @@ Matrix Matrix::scalarMultiply(double scalar) const {
 
 Matrix Matrix::scalarAdd(double scalar) const {
     arma::mat result = scalar + this->data;
+    return Matrix(result);
+}
+
+// Other Operations
+Matrix Matrix::transpose() const {
+    arma::mat result = this->data.t();
     return Matrix(result);
 }
 

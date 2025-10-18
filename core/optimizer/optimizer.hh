@@ -17,8 +17,7 @@
 
 class Optimizer {
 public:
-    Optimizer();
-
-    void updateParameters(std::vector<Layer> &layers, std::vector<Matrix> &gradients, double learningRate);
+    virtual ~Optimizer() = default;
+    virtual void updateParameters(std::vector<Layer> &layers, std::vector<Matrix> &gradients, double learningRate) = 0;
 };
 #endif // OPTIMIZER_H

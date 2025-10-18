@@ -19,20 +19,27 @@ class Layer {
 public:
     Matrix neurons;
     Matrix weights;
-    Activator activator;
+    Activator &activator;
     int height;
 
     // Constructors
     Layer(int height, Activator &activator, int weightsHeight); // randomly initializes neurons
 
+
+    Layer(const Layer&) = delete;
+    Layer& operator=(const Layer&) = delete;
+
+    Layer(Layer&&) noexcept = default;
+    Layer& operator=(Layer&&) noexcept = default;
+
     // Setters & Getters
     void setNeurons(Matrix neurons);
     
     // Forward Propagate
-    Matrix forward(Matrix weights) const;
+    Matrix forward(Matrix weights);
 
     // Backpropagate
-    void backpropogate(Matrix weights) const;
+    void backpropogate(Matrix weights);
 
 };
 

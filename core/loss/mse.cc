@@ -7,19 +7,16 @@
  * Supports loss computation and derviation
  */
 
-#include "loss.hh"
+#include "mse.hh"
+#include "matrix.hh"
 #include <cmath>
 
-class MSE : public Loss {
-public: 
-    MSE() {}
+MSE::MSE() {}
 
-    Matrix compute(const Matrix &predicted, const Matrix &actual) const {
-        return actual.subtract(predicted).toPower(2).scalarMultiply(0.5);
-    }
+Matrix MSE::compute(const Matrix &predicted, const Matrix &actual) const {
+    return actual.subtract(predicted).toPower(2).scalarMultiply(1.0 / predicted.getRows());
+}
 
-    Matrix derivate(const Matrix &predicted, const Matrix &actual) const {
-        return predicted.subtract(actual);
-    }
-
-};
+Matrix MSE::derivate(const Matrix &actual, const Matrix &expected) const {
+    return actual.subtract(expected);
+}

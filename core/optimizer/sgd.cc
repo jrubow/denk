@@ -16,10 +16,10 @@ SGD::SGD() {
 
 }
 
-void updateParameters(std::vector<Layer> &layers, std::vector<Matrix> &gradients, double learningRate) {
+void SGD::updateParameters(std::vector<Layer> &layers, std::vector<Matrix> &gradients, double learningRate) {
     // add error if weights != gradients
     
-    for (int i = 0; i < layers.size(); i++) {
-        layers[i].weights = layers[i].weights.subtract(gradients[i].scalarMultiply(learningRate));
+    for (int i = 0; i < layers.size() - 1; i++) {
+        layers[i].weights = layers[i].weights.subtract(gradients[i].scalarMultiply(learningRate).transpose());
     }
 }

@@ -9,18 +9,20 @@
 
 #include "layer.hh"
 
-Layer::Layer(int height, Activator &activator, int weightsHeight) :
-    neurons(height, 1), weights(0, weightsHeight) {
+Layer::Layer(int curLayerSize, Activator &activatorRef, int nextLayerSize) :
+    neurons(curLayerSize, 1), 
+    weights(nextLayerSize, curLayerSize),
+    activator(activatorRef) {
     this->neurons.uRandomize(1.0);
     this->weights.uRandomize(1.0);
-    this->activator = activator;
 }
 
-Matrix Layer::forward(Matrix weights) const {
-    return activator.activate(weights.multiply(neurons));
+Matrix Layer::forward(Matrix input) {
+    this->neurons = input;
+    return activator.activate(weights.transpose().multiply(input));
 }
 
-void Layer::backpropogate(Matrix weights) const {
+void Layer::backpropogate(Matrix weights)  {
     
 }
 

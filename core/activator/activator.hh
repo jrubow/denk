@@ -23,10 +23,11 @@ enum ActivationType {
 class Activator {
 public:
 
-    double activate(double input) const;
-    Matrix activate(const Matrix &input) const;
+    virtual double activate(double input) const = 0;
+    virtual Matrix activate(const Matrix &input) const = 0;
+    virtual Matrix derivate(const Matrix &input) const = 0;
 
-    Matrix derivate(const Matrix &input) const;
+    virtual ~Activator() = default;
 };
 
 #endif // ACTIVATOR_H
