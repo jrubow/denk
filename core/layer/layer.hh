@@ -20,26 +20,22 @@ public:
     Matrix neurons;
     Matrix weights;
     Activator &activator;
+    Layer *nextLayer;
     int height;
 
-    // Constructors
-    Layer(int height, Activator &activator, int weightsHeight); // randomly initializes neurons
-
-
+    Layer(int height, Activator &activator, int weightsHeight); // randomly initializes weights
     Layer(const Layer&) = delete;
     Layer& operator=(const Layer&) = delete;
-
     Layer(Layer&&) noexcept = default;
     Layer& operator=(Layer&&) noexcept = default;
+
+    Layer* createNextLayer(int newHeight, Activator &newActivator);
 
     // Setters & Getters
     void setNeurons(Matrix neurons);
     
     // Forward Propagate
-    Matrix forward(Matrix weights);
-
-    // Backpropagate
-    void backpropogate(Matrix weights);
+    void forward();
 
 };
 

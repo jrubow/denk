@@ -12,8 +12,8 @@
 
 BNN::BNN(std::vector<Layer> layers, uint64_t epochs, double learningRate, double trainingSplit, Loss &lossRef, Optimizer &optimizerRef) :
         layers(std::move(layers)),
-        optimizer(std::move(optimizerRef)),
-        loss(std::move(lossRef)) {
+        optimizer(optimizerRef),
+        loss(lossRef) {
     this->epochs = epochs;
     this->learningRate = learningRate;
     this->trainingSplit = trainingSplit;
@@ -22,8 +22,8 @@ BNN::BNN(std::vector<Layer> layers, uint64_t epochs, double learningRate, double
 BNN::BNN(std::vector<Layer> layers, uint64_t epochs, double learningRate, double trainingSplit,
          std::vector<Matrix> input, std::vector<Matrix> expected, Loss &lossRef, Optimizer &optimizerRef) :
         layers(std::move(layers)),
-        optimizer(std::move(optimizerRef)),
-        loss(std::move(lossRef)) {
+        optimizer(optimizerRef),
+        loss(lossRef) {
     this->epochs = epochs;
     this->learningRate = learningRate;
     this->trainingSplit = trainingSplit;

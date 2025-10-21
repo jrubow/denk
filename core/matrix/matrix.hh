@@ -23,6 +23,8 @@ public:
     Matrix(int r, int c);
     Matrix(int r, int c, const std::vector<double>& initial_data);
     Matrix(int r, int c, int init);
+    
+    // TODO: rule of 5
 
     // Accessors for dimensions
     int getRows() const;
