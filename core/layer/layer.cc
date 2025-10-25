@@ -9,19 +9,20 @@
 
 #include "layer.hh"
 
-Layer::Layer(int curLayerSize, Activator &activatorRef, int prevLayerSize) :
+Layer::Layer(int prevLayerSize, Activator &activatorRef, int curLayerSize) :
     neurons(curLayerSize, 1), 
-    weights(prevLayerSize, curLayerSize),
+    weights(curLayerSize, prevLayerSize + 1),
     activator(activatorRef) {
     this->neurons.uRandomize(1.0);
     this->weights.uRandomize(1.0);
 }
 
 Layer* Layer::createNextLayer(int newHeight, Activator &newActivator) {
-    this->nextLayer = &Layer(newHeight, newActivator, this->height);
+    this->nextLayer = new Layer(newHeight, newActivator, this->height);
     return this->nextLayer;
 }
 
-void Layer::forward() {
-    nextLayer->neurons = std::move(activator.activate(this->neurons.multiply(weights.transpose())));
+Matrix* Layer::forward(Matrix *input) {
+    this->neurons = std::move(activator.activate(weights.multiply(*input)));
+    return &this->neurons;
 }

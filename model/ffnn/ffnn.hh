@@ -26,8 +26,8 @@ class FFNN {
         std::vector<Layer> layers;
 
         // Data
-        std::vector<Matrix> input;
-        std::vector<Matrix> expected;
+        std::vector<Matrix> *input;
+        std::vector<Matrix> *expected;
 
         // Optimizer
         Optimizer &optimizer;
@@ -42,18 +42,19 @@ class FFNN {
         double momentumFactor = 0.9;
 
         // Constructors
-        FFNN(std::vector<double> shape, uint64_t epochs, double learningRate, double trainingSplit, Loss &loss, Optimizer &optimizer);
+        FFNN(std::vector<Layer> layers, uint64_t epochs, double learningRate, double trainingSplit, Loss &loss, Optimizer &optimizer);
         FFNN(const FFNN&) = delete;
         FFNN& operator=(const FFNN&) = delete;
         FFNN(FFNN&&) noexcept = default;
         FFNN& operator=(FFNN&&) noexcept = default;
         
         // Training & Prediction
-        status_t train();
+        status_t train(std::vector<Matrix> *xInput, std::vector<Matrix> *yExpected);
         status_t test();
         Matrix predict(Matrix input);
         double computeLoss(int index);
-        double computeAverageLoss();
+        double computeAverageTrainingLoss();
+        double computeAverageTestLoss();
         const std::vector<Matrix> computeGradients(int64_t epoch);
 
         // Advanced Configuration

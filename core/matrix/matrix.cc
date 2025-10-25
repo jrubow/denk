@@ -8,6 +8,7 @@
  */
 
 #include "matrix.hh"
+#include "status.h"
 #include <stdexcept>
 #include <iostream>
 #include <armadillo>
@@ -119,12 +120,12 @@ Matrix Matrix::multiply(const Matrix &mat) const {
 
 Matrix Matrix::toPower(double power) const {
     arma::mat result = arma::pow(data, power);
-    return result;
+    return Matrix(result);
 }
 
 Matrix Matrix::exponent() const {
     arma::mat result = arma::exp(data);
-    return result;
+    return Matrix(result);
 }
 
 // Scalar Operations
@@ -145,6 +146,34 @@ Matrix Matrix::transpose() const {
 }
 
 // Helper functions
-void Matrix::uRandomize(double scalar) {
-    data = scalar * data.randu(data.n_cols, data.n_rows);
+status_t Matrix::uRandomize(double scalar) {
+    data.randu(data.n_rows, data.n_cols);
+    data *= scalar;
+    return SUCCESS;
+}
+
+
+Matrix Matrix::removeLastRow() {
+    if (data.n_rows == 0) {
+        throw std::runtime_error("[ERROR] Cannot remove last row from an empty matrix.");
+    }
+    arma::mat result = data;
+    result.shed_row(result.n_rows - 1);
+    return Matrix(result);
+}
+
+Matrix Matrix::removeLastCol() {
+    if (data.n_cols == 0) {
+        throw std::runtime_error("[ERROR] Cannot remove last column from an empty matrix.");
+    }
+    arma::mat result = data;
+    result.shed_col(result.n_cols - 1);
+    return Matrix(result);
+}
+
+Matrix Matrix::appendRow(double value) {
+    arma::mat result = data;
+    arma::rowvec newRow(result.n_cols, arma::fill::value(value));
+    result.insert_rows(result.n_rows, newRow);
+    return Matrix(result);
 }

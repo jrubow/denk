@@ -13,6 +13,7 @@
 #include <armadillo>
 #include <vector>
 #include <iostream>
+#include "status.h"
 
 class Matrix {
 public:
@@ -49,7 +50,10 @@ public:
     Matrix scalarAdd(double scalar) const;
 
     // Helper functions
-    void uRandomize(double scalar);
+    status_t uRandomize(double scalar);
+    Matrix removeLastRow();
+    Matrix removeLastCol();
+    Matrix appendRow(double value);
 
     // For debugging
     void print() const;

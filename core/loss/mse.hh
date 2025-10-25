@@ -17,8 +17,8 @@ class MSE : public Loss {
 public:
     MSE();
 
-    Matrix compute(const Matrix &predicted, const Matrix &actual) const;
-    Matrix derivate(const Matrix &predicted, const Matrix &actual) const;
+    Matrix compute(const Matrix *predicted, const Matrix *actual) const;
+    Matrix derivate(const Matrix *predicted, const Matrix *actual) const;
 };
 
 #endif // MSE_H

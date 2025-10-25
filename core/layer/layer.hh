@@ -35,7 +35,7 @@ public:
     void setNeurons(Matrix neurons);
     
     // Forward Propagate
-    void forward();
+    Matrix* forward(Matrix *input);
 
 };
 

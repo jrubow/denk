@@ -105,12 +105,12 @@ target_include_directories(DenkCore PUBLIC
 # Library Files for DenkCore
 set(MODEL_SOURCES
     # Model Sources
-    model/bnn/bnn.cc
+    model/ffnn/ffnn.cc
 )
 
 set(MODEL_HEADERS
     model/model.hh
-    model/bnn/bnn.hh
+    model/ffnn/ffnn.hh
 )
 
 add_library(DenkModel ${MODEL_SOURCES} ${MODEL_HEADERS})
@@ -118,7 +118,7 @@ add_library(DenkModel ${MODEL_SOURCES} ${MODEL_HEADERS})
 # Include directories for DenkCore Headers
 target_include_directories(DenkModel PUBLIC
     "${CMAKE_CURRENT_SOURCE_DIR}/model"
-    "${CMAKE_CURRENT_SOURCE_DIR}/model/bnn"
+    "${CMAKE_CURRENT_SOURCE_DIR}/model/ffnn"
 )
 target_link_libraries(DenkModel PRIVATE DenkCore)
 

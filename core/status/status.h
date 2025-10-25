@@ -4,7 +4,7 @@
 #include <stdint.h>
 
 #define OK       0
-#define FAIL    -1
+#define FAILURE    -1
 #define SUCCESS  0
 
 typedef uint8_t status_t;

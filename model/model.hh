@@ -1,6 +1,6 @@
 #ifndef MODEL_H
 #define MODEL_H
 
-#include "bnn/bnn.hh"
+#include "ffnn/ffnn.hh"
 
 #endif // MODEL_H
