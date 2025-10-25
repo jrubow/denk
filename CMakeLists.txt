@@ -40,6 +40,7 @@ set(CORE_SOURCES
 
     # Loss
     core/loss/mse.cc
+    core/loss/bce.cc
 
     # Optimizers
     core/optimizer/sgd.cc
@@ -64,6 +65,7 @@ set(CORE_HEADERS
    # Loss
    core/loss/loss.hh
    core/loss/mse.hh
+   core/loss/bce.hh
 
    # Optimizers
    core/optimizer/optimizer.hh

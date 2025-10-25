@@ -11,6 +11,7 @@
 // Loss
 #include "loss/loss.hh"
 #include "loss/mse.hh"
+#include "loss/bce.hh"
 
 // Layers
 #include "layer/layer.hh"

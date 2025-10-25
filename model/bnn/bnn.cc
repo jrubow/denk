@@ -114,7 +114,7 @@ const std::vector<Matrix> BNN::computeGradients(int64_t index) {
     size_t n = layers.size();
     
     Matrix loss_deriv = loss.derivate(layers[n-1].neurons, expected[index]);
-    Matrix activator_deriv = layers[n-1].activator.derivate(layers[n-1].neurons);
+    Matrix activator_deriv = layers[n-1].activator.derivate(layers[n-1].preActivation);
     
     deltas[n-1] = loss_deriv.multiplyElementwise(activator_deriv);
 
@@ -137,7 +137,7 @@ const std::vector<Matrix> BNN::computeGradients(int64_t index) {
 
         // Check 3: Multiplied Delta .multiplyElementwise( Current Activator Deriv )
         // Both sides must have identical dimensions for element-wise multiplication.
-        activator_deriv = layers[i].activator.derivate(layers[i].neurons);
+    activator_deriv = layers[i].activator.derivate(layers[i].preActivation);
         
         if (multiplied_delta.getRows() != activator_deriv.getRows() ||
             multiplied_delta.getCols() != activator_deriv.getCols()) {

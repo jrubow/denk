@@ -18,6 +18,7 @@
 class Layer {
 public:
     Matrix neurons;
+    Matrix preActivation;
     Matrix weights;
     Activator &activator;
     Layer *nextLayer;

@@ -23,6 +23,7 @@ Layer* Layer::createNextLayer(int newHeight, Activator &newActivator) {
 }
 
 Matrix* Layer::forward(Matrix *input) {
-    this->neurons = std::move(activator.activate(weights.multiply(*input)));
+    this->preActivation = weights.multiply(*input);
+    this->neurons = std::move(activator.activate(this->preActivation));
     return &this->neurons;
 }

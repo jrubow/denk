@@ -14,11 +14,10 @@
 MSE::MSE() {}
 
 Matrix MSE::compute(const Matrix *expected, const Matrix *actual) const {
-    return (*actual).subtract((*expected)).toPower(2).scalarMultiply(1.0 / (*expected).getRows());
+    return (*actual).subtract((*expected)).toPower(2).scalarMultiply(1.0 / (expected->getRows() * expected->getCols()));
 }
 
 Matrix MSE::derivate(const Matrix *actual, const Matrix *expected) const {
     Matrix diff = (*actual).subtract(*expected);
-    double scale = 2.0 / (actual->getRows() * actual->getCols());
-    return diff.scalarMultiply(scale);
+    return diff.scalarMultiply(2.0 / (actual->getRows() * actual->getCols()));
 }

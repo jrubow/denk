@@ -1,6 +1,6 @@
 /**
  * @file
- * @copyright Copyright (c) Josh Rubow (jrubow). All rights reserved.
+ * @copyright Copyright (c) Jo h Rubow (jrubow). All rights reserved.
  *
  * @brief
  * Feed Forward Neural Network (FFNN) class implementation
@@ -54,7 +54,8 @@ double FFNN::computeAverageTrainingLoss() {
 
 double FFNN::computeAverageTestLoss() {
     double totalLoss = 0.0;
-    for (size_t i = 0; i < (*input).size(); i++) {
+    int32_t start  = static_cast<int>(std::round(input->size() * trainingSplit));
+    for (int32_t i = start; i < input->size(); i++) {
         Matrix activation = (*input)[i];
         Matrix *yExpected = &(*expected)[i];
 
@@ -66,9 +67,6 @@ double FFNN::computeAverageTestLoss() {
         }
 
         // Compute Loss
-        for (int j = 0; j < layers[layers.size() - 1].neurons.getRows(); j++) {
-            _logf("\nExpected:%f Actual:%f\n", layers[layers.size() - 1].neurons.get(j, 0), (*yExpected).get(j, 0));
-        }
         Matrix lossm = loss.compute(&layers[layers.size() - 1].neurons, yExpected);
         totalLoss += lossm.get(0, 0);
     }
@@ -101,12 +99,12 @@ const std::vector<Matrix> FFNN::computeGradients(int64_t index) {
     
     // Output Layer
     // TODO: simplify or move to layers class for dz. convert to pointers
-    deltas[totalLayers - 1] = std::move(lossDeriv.multiplyElementwise(layers[totalLayers - 1].activator.derivate(layers[totalLayers - 1].neurons)));
+    deltas[totalLayers - 1] = std::move(lossDeriv.multiplyElementwise(layers[totalLayers - 1].activator.derivate(layers[totalLayers - 1].preActivation)));
 
     // Hidden Layers
     for (int i = totalLayers - 2; i >= 0; i--) {
-        deltas[i] = std::move(layers[i+1].weights.transpose().multiply(deltas[i + 1]).removeLastRow()
-                    .multiplyElementwise(layers[i].activator.derivate(layers[i].neurons)));
+    deltas[i] = std::move(layers[i+1].weights.transpose().multiply(deltas[i + 1]).removeLastRow()
+            .multiplyElementwise(layers[i].activator.derivate(layers[i].preActivation)));
     }
 
     // Compute Gradients
@@ -135,8 +133,9 @@ status_t FFNN::train(std::vector<Matrix> *xInput, std::vector<Matrix> *yExpected
     this->input = xInput;
     this->expected = yExpected;
 
+    int32_t end  = static_cast<int>(std::round(input->size() * trainingSplit));
     for (int i = 0; i < epochs; i++) {
-        for (size_t j = 0; j < input->size(); j++) {
+        for (size_t j = 0; j < end; j++) {
             Matrix activation = (*input)[j];
             Matrix *yExpected = &(*expected)[j];
 
@@ -148,8 +147,16 @@ status_t FFNN::train(std::vector<Matrix> *xInput, std::vector<Matrix> *yExpected
 
             // Update weights
             std::vector<Matrix> gradients = computeGradients(j);
+            // _logf("\n\n");
+            // for (int n = 0; n < layers.size(); n++) {
+            //     for (int i = 0; i < layers[n].weights.getRows(); i++) {
+            //         for (int j = 0; j < layers[n].weights.getCols(); j++) {
+            //             _logf("%f ", layers[n].weights.get(i, j));
+            //         }
+            //         _logf("\n");
+            //     }
+            // }
             optimizer.updateParameters(layers, gradients, learningRate);
-
         }
         _logf("[EPOCH %d] Avg Loss: %.10f\n", (i + 1), computeAverageTrainingLoss());
         //printWeights();
