@@ -147,17 +147,17 @@ void ffnn3() {
     printf("\n[Starting FFNN Complex Test: Learn Rosenbrock function f(x,y) = (1-x)² + 100(y-x²)²]\n");
 
     // Activators, loss, optimizer
-    Sigmoid sigmoid;
+    Tanh tanh;
     Identity identity;
     MSE loss;
     SGD optimizer;
     
     std::vector<Layer> layers;
     layers.push_back(Layer(2, identity, 16));
-    layers.push_back(Layer(16, sigmoid, 32));
-    layers.push_back(Layer(32, sigmoid, 64));
-    layers.push_back(Layer(64, sigmoid, 32));
-    layers.push_back(Layer(32, sigmoid, 16));
+    layers.push_back(Layer(16, tanh, 32));
+    layers.push_back(Layer(32, tanh, 64));
+    layers.push_back(Layer(64, tanh, 32));
+    layers.push_back(Layer(32, tanh, 16));
     layers.push_back(Layer(16, identity, 1));
 
     const int N = 40; 
@@ -179,7 +179,7 @@ void ffnn3() {
     }
 
     // Model: smaller learning rate due to function complexity
-    FFNN model(std::move(layers), 100000, 0.001, 0.8, loss, optimizer);
+    FFNN model(std::move(layers), 1000000, 0.001, 0.8, loss, optimizer);
 
     model.train(&input, &output);
 

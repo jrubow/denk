@@ -34,6 +34,7 @@ set(CORE_SOURCES
     # Activators
     core/activator/sigmoid.cc
     core/activator/identity.cc
+    core/activator/tanh.cc
     
     # Layers
     core/layer/layer.cc
@@ -58,6 +59,7 @@ set(CORE_HEADERS
    core/activator/activator.hh
    core/activator/sigmoid.hh
    core/activator/identity.hh
+   core/activator/tanh.hh
    
    # Layers
    core/layer/layer.hh

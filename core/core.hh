@@ -7,6 +7,7 @@
 #include "activator/activator.hh"
 #include "activator/sigmoid.hh"
 #include "activator/identity.hh"
+#include "activator/tanh.hh"
 
 // Loss
 #include "loss/loss.hh"
