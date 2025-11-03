@@ -16,9 +16,9 @@
 
 class SGD : public Optimizer {
 public:
-    SGD();
+    SGD(double learningRate);
 
-    void updateParameters(std::vector<Layer> &layers, std::vector<Matrix> &gradients, double learningRate);
+    void updateParameters(std::vector<Layer> &layers, std::vector<Matrix> &gradients);
 };
 
 

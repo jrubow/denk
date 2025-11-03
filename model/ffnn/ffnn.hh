@@ -19,7 +19,6 @@ class FFNN {
 
         // Hyperparameters
         uint64_t epochs;
-        double learningRate;
         Loss &loss;
 
         // Network Layers
@@ -42,7 +41,7 @@ class FFNN {
         double momentumFactor = 0.9;
 
         // Constructors
-        FFNN(std::vector<Layer> layers, uint64_t epochs, double learningRate, double trainingSplit, Loss &loss, Optimizer &optimizer);
+        FFNN(std::vector<Layer> layers, uint64_t epochs, double trainingSplit, Loss &loss, Optimizer &optimizer);
         FFNN(const FFNN&) = delete;
         FFNN& operator=(const FFNN&) = delete;
         FFNN(FFNN&&) noexcept = default;
@@ -61,6 +60,8 @@ class FFNN {
         void enableClipping(double minValue, double maxValue);
         void enableMiniBatch(size_t batchSize);
         void enableMomentum(double momentumFactor);
+
+        void printWeights();
 };
 
 #endif // FFNN_H

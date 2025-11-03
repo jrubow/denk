@@ -13,11 +13,11 @@
 #include "matrix.hh"
 #include "logger.h"
 
-SGD::SGD() {
-
+SGD::SGD(double learningRate) {
+    this->learningRate = learningRate;
 }
 
-void SGD::updateParameters(std::vector<Layer> &layers, std::vector<Matrix> &gradients, double learningRate) {
+void SGD::updateParameters(std::vector<Layer> &layers, std::vector<Matrix> &gradients) {
     for (int i = 0; i < layers.size(); i++) {
         layers[i].weights = layers[i].weights.subtract(gradients[i].scalarMultiply(learningRate));
     }

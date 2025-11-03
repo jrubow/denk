@@ -24,13 +24,16 @@ public:
     Layer *nextLayer;
     int height;
 
-    Layer(int height, Activator &activator, int weightsHeight); // randomly initializes weights
+    Layer(int height, Activator &activator, int weightsHeight, int initType); // randomly initializes weights
     Layer(const Layer&) = delete;
     Layer& operator=(const Layer&) = delete;
     Layer(Layer&&) noexcept = default;
     Layer& operator=(Layer&&) noexcept = default;
 
     Layer* createNextLayer(int newHeight, Activator &newActivator);
+
+    void uxavier();
+    void nxavier();
 
     // Setters & Getters
     void setNeurons(Matrix neurons);

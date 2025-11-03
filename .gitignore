@@ -1,4 +1,5 @@
 /.vscode
 /build
 /compile/CMakeFiles
+/system/model/saved
 /denk.code-workspace

@@ -24,5 +24,5 @@ Matrix Sigmoid::activate(const Matrix &input) const {
 
 Matrix Sigmoid::derivate(const Matrix &input) const {
     return this->activate(input).multiplyElementwise(
-            this->activate(input).scalarAdd(-1).scalarMultiply(-1)); 
+            this->activate(input).scalarAdd(-1.0).scalarMultiply(-1.0)); 
 }

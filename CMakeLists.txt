@@ -35,6 +35,7 @@ set(CORE_SOURCES
     core/activator/sigmoid.cc
     core/activator/identity.cc
     core/activator/tanh.cc
+    core/activator/relu.cc
     
     # Layers
     core/layer/layer.cc
@@ -46,40 +47,42 @@ set(CORE_SOURCES
     # Optimizers
     core/optimizer/sgd.cc
     core/optimizer/newtonsmethod.cc
+    core/optimizer/momentum.cc
 
     # Logger
     core/logger/logger.c
 
 )
 set(CORE_HEADERS
-   core/core.hh
-   core/matrix/matrix.hh
+    core/core.hh
+    core/matrix/matrix.hh
    
-   # Activators
-   core/activator/activator.hh
-   core/activator/sigmoid.hh
-   core/activator/identity.hh
-   core/activator/tanh.hh
+    # Activators
+    core/activator/activator.hh
+    core/activator/sigmoid.hh
+    core/activator/identity.hh
+    core/activator/tanh.hh
+    core/activator/relu.hh
    
-   # Layers
-   core/layer/layer.hh
+    # Layers
+    core/layer/layer.hh
    
-   # Loss
-   core/loss/loss.hh
-   core/loss/mse.hh
-   core/loss/bce.hh
+    # Loss
+    core/loss/loss.hh
+    core/loss/mse.hh
+    core/loss/bce.hh
 
-   # Optimizers
-   core/optimizer/optimizer.hh
-   core/optimizer/sgd.hh
-   core/optimizer/newtonsmethod.hh
+    # Optimizers
+    core/optimizer/optimizer.hh
+    core/optimizer/sgd.hh
+    core/optimizer/newtonsmethod.hh
+    core/optimizer/momentum.hh
   
-   # Loggers
-   core/logger/logger.h
+    # Loggers
+    core/logger/logger.h
 
-   # Status
-   core/status/status.h
-
+    # Status
+    core/status/status.h
 )
 
 add_library(DenkCore ${CORE_SOURCES} ${CORE_HEADERS})

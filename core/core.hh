@@ -8,6 +8,7 @@
 #include "activator/sigmoid.hh"
 #include "activator/identity.hh"
 #include "activator/tanh.hh"
+#include "activator/relu.hh"
 
 // Loss
 #include "loss/loss.hh"
@@ -21,6 +22,7 @@
 #include "optimizer/optimizer.hh"
 #include "optimizer/sgd.hh"
 #include "optimizer/newtonsmethod.hh"
+#include "optimizer/momentum.hh"
 
 
 // System

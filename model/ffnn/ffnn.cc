@@ -10,12 +10,11 @@
 #include "core.hh"
 #include "ffnn.hh"
 
-FFNN::FFNN(std::vector<Layer> layers, uint64_t epochs, double learningRate, double trainingSplit, Loss &lossRef, Optimizer &optimizerRef) :
+FFNN::FFNN(std::vector<Layer> layers, uint64_t epochs, double trainingSplit, Loss &lossRef, Optimizer &optimizerRef) :
             layers(std::move(layers)),
             optimizer(optimizerRef),
             loss(lossRef) {
     this->epochs = epochs;
-    this->learningRate = learningRate;
     this->trainingSplit = trainingSplit;
 }
 
@@ -32,9 +31,9 @@ std::vector<Matrix> getWeights(const std::vector<Layer>& layers) {
 
 double FFNN::computeAverageTrainingLoss() {
     double totalLoss = 0.0;
-    for (size_t i = 0; i < (*input).size(); i++) {
-        // use a local copy so the stored dataset element isn't mutated or
-        // replaced by a pointer to layer internals
+    int32_t end  = static_cast<int>(std::round(input->size() * trainingSplit));
+    if (end <= 0) return 0.0;
+    for (int32_t i = 0; i < end; i++) {
         Matrix activation = (*input)[i];
         Matrix *yExpected = &(*expected)[i];
 
@@ -49,13 +48,15 @@ double FFNN::computeAverageTrainingLoss() {
         Matrix lossm = loss.compute(&layers[layers.size() - 1].neurons, yExpected);
         totalLoss += lossm.get(0, 0);
     }
-    return totalLoss / (*input).size();
+    return totalLoss / static_cast<double>(end);
 }
 
 double FFNN::computeAverageTestLoss() {
     double totalLoss = 0.0;
     int32_t start  = static_cast<int>(std::round(input->size() * trainingSplit));
-    for (int32_t i = start; i < input->size(); i++) {
+    int32_t inputSize = static_cast<int32_t>(input->size());
+    if (start >= inputSize) return 0.0;
+    for (int32_t i = start; i < inputSize; i++) {
         Matrix activation = (*input)[i];
         Matrix *yExpected = &(*expected)[i];
 
@@ -70,7 +71,8 @@ double FFNN::computeAverageTestLoss() {
         Matrix lossm = loss.compute(&layers[layers.size() - 1].neurons, yExpected);
         totalLoss += lossm.get(0, 0);
     }
-    return totalLoss / (*input).size();
+    int32_t testCount = inputSize - start;
+    return totalLoss / static_cast<double>(testCount);
 }
 
 double FFNN::computeLoss(int index) {
@@ -86,9 +88,7 @@ double FFNN::computeLoss(int index) {
 
     // Compute Loss
     Matrix lossm = loss.compute(&layers[layers.size() - 1].neurons, yExpected);
-    totalLoss += lossm.get(0, 0);
-
-    return totalLoss / (*input).size();
+    return lossm.get(0, 0);
 }
 
 const std::vector<Matrix> FFNN::computeGradients(int64_t index) {
@@ -127,6 +127,29 @@ const std::vector<Matrix> FFNN::computeGradients(int64_t index) {
     return gradients;
 }
 
+void FFNN::printWeights() {
+    _logf("\n--- BNN WEIGHTS ---\n");
+    for (size_t i = 0; i < layers.size(); ++i) {
+        Matrix weights = layers[i].weights;
+        size_t rows = weights.getRows();
+        size_t cols = weights.getCols();
+        
+        _logf("Layer %zu Weights (W%zu): %zu rows x %zu cols\n", i + 1, i + 1, rows, cols);
+        
+        for (size_t r = 0; r < rows; ++r) {
+            _logf("  Row %zu: [", r);
+            for (size_t c = 0; c < cols; ++c) {
+                _logf("%.6f", weights.get(r, c));
+                if (c < cols - 1) {
+                    _logf(", ");
+                }
+            }
+            _logf("]\n");
+        }
+    }
+    _logf("-------------------\n");
+}
+
 
 
 status_t FFNN::train(std::vector<Matrix> *xInput, std::vector<Matrix> *yExpected) {
@@ -134,6 +157,8 @@ status_t FFNN::train(std::vector<Matrix> *xInput, std::vector<Matrix> *yExpected
     this->expected = yExpected;
 
     int32_t end  = static_cast<int>(std::round(input->size() * trainingSplit));
+
+    printWeights();
     for (int i = 0; i < epochs; i++) {
         for (size_t j = 0; j < end; j++) {
             Matrix activation = (*input)[j];
@@ -147,19 +172,12 @@ status_t FFNN::train(std::vector<Matrix> *xInput, std::vector<Matrix> *yExpected
 
             // Update weights
             std::vector<Matrix> gradients = computeGradients(j);
-            // _logf("\n\n");
-            // for (int n = 0; n < layers.size(); n++) {
-            //     for (int i = 0; i < layers[n].weights.getRows(); i++) {
-            //         for (int j = 0; j < layers[n].weights.getCols(); j++) {
-            //             _logf("%f ", layers[n].weights.get(i, j));
-            //         }
-            //         _logf("\n");
-            //     }
-            // }
-            optimizer.updateParameters(layers, gradients, learningRate);
+            optimizer.updateParameters(layers, gradients);
         }
+        
         _logf("[EPOCH %d] Avg Loss: %.10f\n", (i + 1), computeAverageTrainingLoss());
-        //printWeights();
+        // printWeights();
+        
     }
     return SUCCESS;
 }
