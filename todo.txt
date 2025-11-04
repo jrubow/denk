@@ -1,8 +1,12 @@
 Impelement Adam optimizer
-Implemenet Leaky ReLu
 Figure out why ReLu is slowing things down (should be much faster)
 Impelement and ALARM system which can be turned on to montiro important indicators such as graidnet norms, activations, dead neurons etc
 Clean up ffnn
 Implement He initialization
 Impelement optional gradient clipping
 Implement minibatch
+check that preactivations are kept in layers from activations
+Implement saving models
+
+Done:
+Implemenet Leaky ReLu

@@ -36,6 +36,7 @@ set(CORE_SOURCES
     core/activator/identity.cc
     core/activator/tanh.cc
     core/activator/relu.cc
+    core/activator/leakyrelu.cc
     
     # Layers
     core/layer/layer.cc
@@ -63,6 +64,7 @@ set(CORE_HEADERS
     core/activator/identity.hh
     core/activator/tanh.hh
     core/activator/relu.hh
+    core/activator/leakyrelu.hh
    
     # Layers
     core/layer/layer.hh

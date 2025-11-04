@@ -23,31 +23,17 @@ double ReLu::activate(double input) const {
 }
 
 Matrix ReLu::activate(const Matrix &input) const {
-    Matrix result = Matrix(input.getRows(), input.getCols());
-    for (int r = 0; r < input.getRows(); r++) {
-        for (int c = 0; c < input.getCols(); c++) {
-            double val = input.get(r, c);
-            if (val > 0) {
-                result.set(r, c, val);
-            } else {
-                result.set(r, c, 0.0);
-            }
-        }
-    }
+    arma::mat r = input.data;
+    r.for_each([](arma::mat::elem_type &x) { if (x < 0.0) x = 0.0; });
+    Matrix result(input.getRows(), input.getCols());
+    result.data = std::move(r);
     return result;
 }
 
 Matrix ReLu::derivate(const Matrix &input) const {
-    Matrix result = Matrix(input.getRows(), input.getCols());
-    for (int r = 0; r < input.getRows(); r++) {
-        for (int c = 0; c < input.getCols(); c++) {
-            double val = input.get(r, c);
-            if (val > 0) {
-                result.set(r, c, 1.0);
-            } else {
-                result.set(r, c, 0.0);
-            }
-        }
-    }
+    // derivative is 1 where input > 0, else 0. Use vectorized ops.
+    arma::mat mask = arma::conv_to<arma::mat>::from(input.data > 0.0);
+    Matrix result(input.getRows(), input.getCols());
+    result.data = std::move(mask);
     return result;
 }

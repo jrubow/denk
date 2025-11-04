@@ -9,6 +9,7 @@
 #include "activator/identity.hh"
 #include "activator/tanh.hh"
 #include "activator/relu.hh"
+#include "activator/leakyrelu.hh"
 
 // Loss
 #include "loss/loss.hh"
